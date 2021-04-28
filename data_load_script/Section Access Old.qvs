@@ -1,0 +1,94 @@
+///$tab Section Access Old
+// [DIM_PRODUTO_CARACTERISTICA]:
+// LOAD Distinct
+//     ID_Empresa_Produto,
+//     ID_COMPRADOR,
+//     (ID_Empresa_Produto & '|' & ID_COMPRADOR) as FILTRO_SECTION
+// FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Transformacao/Dim_Produto_Caracteristica.qvd]
+// (qvd) Where not IsNull(ID_COMPRADOR) and not IsNull(ID_Empresa_Produto);;
+
+
+// [ACESSO_TOTAL]:
+// // Usuários que tem acesso completo
+// LOAD
+//     'ADMIN' as ACCESS,
+//     ('FERRAGENSNEGRAO\' & USUARIO) AS USERID,
+//     '**' as FILTRO_SECTION
+// FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/Acesso Compras.xlsx]
+// (ooxml, embedded labels, table is Planilha1) where EMPRESA='ALL' AND COMPRADOR='ALL';
+// Store [ACESSO_TOTAL] into [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/SA_Acesso_Total.qvd] (qvd);
+// Drop Table [ACESSO_TOTAL];
+
+
+// // Usuários que tem acesso a todas as empresas mas limitado a compradores
+// [FILTRO_SOMENTE_COMPRADOR]:
+// LOAD
+//     'USER' as ACCESS,
+//     ('FERRAGENSNEGRAO\' & USUARIO) AS USERID,
+//     COMPRADOR
+// FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/Acesso Compras.xlsx]
+// (ooxml, embedded labels, table is Planilha1) where EMPRESA='ALL' and COMPRADOR <> 'ALL';
+// Join (FILTRO_SOMENTE_COMPRADOR)
+// LOAD Distinct
+//     ID_COMPRADOR as COMPRADOR,
+//     FILTRO_SECTION
+// Resident DIM_PRODUTO_CARACTERISTICA;
+// Store [FILTRO_SOMENTE_COMPRADOR] into [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/SA_Filtro_Somente_Comprador.qvd] (qvd);
+// Drop Table [FILTRO_SOMENTE_COMPRADOR];
+
+
+// // Usuários que tem acesso a todas as empresas mas limitado a compradores
+// [FILTRO_SOMENTE_EMPRESA]:
+// LOAD
+//     'USER' as ACCESS,
+//     ('FERRAGENSNEGRAO\' & USUARIO) AS USERID,
+//     EMPRESA
+// FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/Acesso Compras.xlsx]
+// (ooxml, embedded labels, table is Planilha1) where EMPRESA<>'ALL' and COMPRADOR = 'ALL';
+// Join (FILTRO_SOMENTE_EMPRESA)
+// LOAD Distinct
+//     ID_Empresa_Produto as EMPRESA,
+//     FILTRO_SECTION
+// Resident DIM_PRODUTO_CARACTERISTICA;
+// Store [FILTRO_SOMENTE_EMPRESA] into [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/SA_Filtro_Somente_Empresa.qvd] (qvd);
+// Drop Table [FILTRO_SOMENTE_EMPRESA];
+// Drop Table DIM_PRODUTO_CARACTERISTICA;
+
+
+
+
+// section access;
+
+
+// LOAD * inline [
+// ACCESS, USERID, FILTRO_SECTION,
+// ADMIN,INTERNAL\SA_SCHEDULER,
+// ADMIN,INTERNAL\ADMINISTRADOR,**
+// ADMIN,QLIKSENSE\ADMINISTRADOR,**
+// ADMIN,ADMINISTRADOR,**
+// ADMIN,FERRAGENSNEGRAO\ADMINISTRADOR,**
+// ];
+// Concatenate
+// LOAD
+//     "ACCESS",
+//     "USERID",
+//     FILTRO_SECTION
+// FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/SA_Acesso_Total.qvd]
+// (qvd) where not IsNull(USERID);
+// Concatenate
+// LOAD
+//     "ACCESS",
+//     "USERID",
+//     FILTRO_SECTION
+// FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/SA_Filtro_Somente_Comprador.qvd]
+// (qvd) where not IsNull(USERID);
+// Concatenate
+// LOAD
+//     "ACCESS",
+//     "USERID",
+//     FILTRO_SECTION
+// FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/SA_Filtro_Somente_Empresa.qvd]
+// (qvd) where not IsNull(USERID);
+
+
+// section application;

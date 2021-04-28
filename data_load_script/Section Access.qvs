@@ -1,0 +1,43 @@
+///$tab Section Access
+section access;
+LOAD
+    "ACCESS",
+    "USERID",
+    FILTROIDCOMPRADOR,
+    FILTROMARCA,
+    FILTROCODFORNECEDOR,
+    FILTROIDEMPRESA
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/Controle_Acessos_Compras.xlsx]
+(ooxml, embedded labels, table is Controle_Acessos);
+
+section application;
+
+Star is *;
+
+[FILTRO_ID_COMPRADOR]:
+LOAD
+    FILTROIDCOMPRADOR,
+    ID_COMPRADOR
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/Controle_Acessos_Compras.xlsx]
+(ooxml, embedded labels, table is Filtro_Id_Comprador);
+
+[FILTRO_MARCA]:
+LOAD
+    FILTROMARCA,
+    Marca
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/Controle_Acessos_Compras.xlsx]
+(ooxml, embedded labels, table is Filtro_Marca);
+
+[FILTRO_COD_FORNECEDOR]:
+LOAD
+    FILTROCODFORNECEDOR,
+    Cod_Fornecedor
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/Controle_Acessos_Compras.xlsx]
+(ooxml, embedded labels, table is Filtro_Cod_Fornecedor);
+
+[FILTRO_ID_EMPRESA]:
+LOAD
+    FILTROIDEMPRESA,
+    ID_Empresa_Produto
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Fonte/Controle_Acessos_Compras.xlsx]
+(ooxml, embedded labels, table is Filtro_Empresa);

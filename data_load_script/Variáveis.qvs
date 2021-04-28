@@ -1,0 +1,11 @@
+///$tab Variáveis
+vDimensaoOC = 'Fornecedor';
+vDimensaoFat = 'MesAno';
+vDimensaoBStrategy = 'Fornecedor';
+
+NoMesesEstoqueComex = 12;
+NoMesesEmEstoque = 12;
+AnoFinal = Year(Today(1));
+
+AnoMesFinal = Year(Today(1)) & Date(Today(1),'MM');
+AnoMesAtual_12 = Year(AddMonths(Today(1),-12)) & Date(AddMonths(Today(1),12),'MM');

@@ -1,0 +1,404 @@
+///$tab Carga
+[DIM_FILIAIS]:
+LOAD
+    ID_Unidade_Link, 
+    Unidade,
+    Nome_Unidade, 
+    Empresa  
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Transformacao/Dim_Filiais.qvd]
+(qvd);
+
+ 
+ 
+[DIM_PRODUTO_CARACTERISTICA]:
+LOAD Distinct
+    Chave_Produto_Carac,
+    ID_Produto_Carac,
+    ID_Empresa_Produto,
+    ID_Unidade_Curva,
+    Unidade_Abastecedora,
+    Cod_Fornecedor,
+    Nome_Fornecedor,
+    FILTRO_SECTION,
+    Fornecedor,
+    Marca,
+    ID_COMPRADOR,  
+    Nome_Comprador,
+    Produto_Ativo,
+    Curva_ABC_Unidade,
+    Curva_ABC_Valor,
+    Status_Descontinuado_Compra,
+    Produto_Ativo_Combinado,
+    Saldo_Estoque,
+    Custo_Medio_Cadastro,
+    Alt(Valor_Estoque,0) as Valor_Estoque,
+    Estoque_Minimo_Reposicao,
+    Estoque_Maximo_Reposicao,
+    Tipo_Reposicao,
+    Perc_Part_01_Empresa,
+    Curva_ABC_01_Empresa,
+    Rank_01_Empresa,
+    Perc_Part_03_Empresa,
+    Curva_ABC_03_Empresa,
+    Rank_03_Empresa,
+    Perc_Part_06_Empresa,
+    Curva_ABC_06_Empresa,
+    Rank_06_Empresa,
+    Perc_Part_12_Empresa,
+    Curva_ABC_12_Empresa,
+    Rank_12_Empresa,
+    Perc_Part_01_Empresa_Fis,
+    Curva_ABC_01_Empresa_Fis,
+    Rank_01_Empresa_Fis,
+    Perc_Part_03_Empresa_Fis,
+    Curva_ABC_03_Empresa_Fis,
+    Rank_03_Empresa_Fis,
+    Perc_Part_06_Empresa_Fis,
+    Curva_ABC_06_Empresa_Fis,
+    Rank_06_Empresa_Fis,
+    Perc_Part_12_Empresa_Fis,
+    Curva_ABC_12_Empresa_Fis,
+    Rank_12_Empresa_Fis,
+    Curva_Combinada_01_Empresa,
+    Curva_Combinada_03_Empresa,
+    Curva_Combinada_06_Empresa,
+    Curva_Combinada_12_Empresa,
+    Tamanho_Curva_Combinada_12,
+    Tamanho_Curva_Combinada_06,
+    Tamanho_Curva_Combinada_03,
+    Tamanho_Curva_Combinada_01,
+    Perc_Part_01_Filial,
+    Curva_ABC_01_Filial,
+    Rank_01_Filial,
+    Perc_Part_03_Filial,
+    Curva_ABC_03_Filial,
+    Rank_03_Filial,
+    Perc_Part_06_Filial,
+    Curva_ABC_06_Filial,
+    Rank_06_Filial,
+    Perc_Part_12_Filial,
+    Curva_ABC_12_Filial,
+    Rank_12_Filial,
+    Perc_Part_01_Filial_Fis,
+    Curva_ABC_01_Filial_Fis,
+    Rank_01_Filial_Fis,
+    Perc_Part_03_Filial_Fis,
+    Curva_ABC_03_Filial_Fis,
+    Rank_03_Filial_Fis,
+    Perc_Part_06_Filial_Fis,
+    Curva_ABC_06_Filial_Fis,
+    Rank_06_Filial_Fis,
+    Perc_Part_12_Filial_Fis,
+    Curva_ABC_12_Filial_Fis,
+    Rank_12_Filial_Fis,
+    Curva_Combinada_01_Filial,
+    Curva_Combinada_03_Filial,
+    Curva_Combinada_06_Filial,
+    Curva_Combinada_12_Filial,
+    Valor_Liquido_12_Emp,
+    Valor_Liquido_06_Emp,
+    Valor_Liquido_03_Emp,
+    Valor_Liquido_01_Emp,
+    Qtde_Vendida_12_Emp,
+    Qtde_Vendida_06_Emp,
+    Qtde_Vendida_03_Emp,
+    Qtde_Vendida_01_Emp,
+    Valor_Liquido_12_Fil,
+    Valor_Liquido_06_Fil,
+    Valor_Liquido_03_Fil,
+    Valor_Liquido_01_Fil,
+    Qtde_Vendida_12_Fil,
+    Qtde_Vendida_06_Fil,
+    Qtde_Vendida_03_Fil,
+    Qtde_Vendida_01_Fil,
+    ID_Produto_Fornecedor,
+    Referencia_Produto,
+    Tem_Duplicidade,
+    [Produto Filial Maior Media 3,6,12Meses],
+    [Produto Filial meses 3,6,12 Maior Media],
+    [COMEX/NACIONAL],
+    Est_Qtde_Avaria,
+    Est_Qtde, 
+    Faixa_Dias_Estoq_Original,
+    Faixa_Dias_Estoq,
+    "Venda Media Ponderada"    
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Transformacao/Dim_Produto_Caracteristica.qvd]
+(qvd);
+
+
+[DIM_PRODUTO_CARACTERISTICA_EMP]:
+LOAD Distinct 
+    Chave_Produto_Carac_Emp,
+    "Qtde_Vendida 12 Empresa",
+    "Qtde_Vendida 06 Empresa",
+    "Qtde_Vendida 03 Empresa",
+    "Produto Maior Media 3,6,12Meses",
+    "Produto meses 3,6,12 Maior Media",
+    "Curva ABC 01 Total",
+    "Curva ABC 03 Total",
+    "Curva ABC 06 Total",
+    "Curva ABC 12 Total",
+    "Custo Medio Empresa",
+    Tempo_Produto_Meses,
+    Embalagem_Padrao_Compra,
+    Qtde_Embalagem_Padrao_Compra
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Transformacao/Dim_Produto_Caracteristica_Empresa.qvd]
+(qvd);
+
+
+[Estoque_Avarias]:
+LOAD Distinct 
+    Chave_Produto_Carac,
+    "Cod. Fornecedor Avaria",
+    "Cod. Tipo Avaria",
+    "Cod. Avaria",
+    "Cod. Filial",
+    "Data Avaria",
+    "No. NF Avaria",
+    "Observação Avaria",
+    "Origem Avaria",
+    "Preco Unit Produto Avaria NE",
+    "Cod. Produto Avaria",
+    "Avaria Qtde Abatida",
+    "Avaria Qtde",
+    "Avaria Saldo Qtde",
+    "Avaria Saldo Valor",
+    //"Chave Produto Estoque",
+    Avaria,
+    "Fornecedor Avaria"
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Transformacao/Estoque_Avarias.qvd]
+(qvd);
+
+
+
+[DIM_PRODUTO]:
+LOAD
+    Chave_Produto_Dim,
+    Descricao_Produto,
+    Apresentacao_Produto,
+    Tipo_Produto,
+    Produto,
+    Linha_Produto,
+    Categoria,
+    Categoria_1 as CATEGORIA1,
+    Categoria_1,
+    Categoria_2,
+    Categoria_3,
+    Categoria_4
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Transformacao/Dim_Produto.qvd]
+(qvd);
+
+
+[DIM_REPRESENTANTES]:
+LOAD
+    ID_Representante,
+    Nome_Micro,
+    Micro,
+    Razao_Social_Micro,
+    ID_Macro,
+    Nome_Macro,
+    Macro,
+    Gerente_Area,
+    Gerente_Regional,
+    Gerente_Nacional
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Transformacao/Dim_Representantes.qvd]
+(qvd);
+
+
+[FORNECEDOR_OC]:
+LOAD
+    ID_Fornecedor_OC,
+    "Fornecedor Pedido"
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Transformacao/Fornecedor_OC.qvd]
+(qvd);
+
+
+[FATO_VENDAS]:
+LOAD Distinct
+    Chave_Fato_Consolidado,
+    Tipo_Mov,
+    Valor_Liquido_NFS_Dev,
+    Qtde_Devolucao_Dev,
+    Preco_Unitario_Dev,
+    Valor_ICMS_ST_Dev,
+    Valor_IPI_Dev,
+    Valor_ICMS_Dev,
+    Valor_Difal_Dev,
+    Valor_Pis_Dev,
+    Valor_Cofins_Dev,
+    Custo_Total_Dev,
+    ID_Unidade_NF,
+    Data_Emissao_NFS,
+    MesAno_Venda,
+    Ano_Venda,
+    ID_Produto,
+    Qtde_Kg_Po_Xadrex_Total,
+    Qtde_Litros_TF7_Total, 
+    %CHAVE_PRODUTO,
+    Valor_Liquido_NFS,
+    Qtde_Vendida_NFS,
+    Preco_Unitario,
+    Valor_ICMS_ST,
+    Valor_IPI,
+    Valor_ICMS,
+    Valor_Difal,
+    Valor_Pis,
+    Valor_Cofins,
+    Custo_Total,
+    Valor_Comissao,
+    Valor_Comissao_Dev,    
+    CFOP,
+    ID_Cliente_NFS,
+    ID_Representante,
+    UF_Cliente,
+    Cliente,
+    Intercompany,
+    Valor_Frete_Item,
+    Valor_Liquido_Bonificacao,
+    Qtde_Bonificacao,
+    Preco_Unitario_Bonificacao,
+    Valor_ICMS_ST_Bonificacao,
+    Valor_IPI_Bonificacao,
+    Valor_ICMS_Bonificacao,
+    Valor_Difal_Bonificacao,
+    Valor_Pis_Bonificacao,
+    Valor_Cofins_Bonificacao,
+    Custo_Total_Bonificacao,
+    Valor_Frete_Item_Bonificacao,
+    Peso_Bruto_NF_Bonificacao,
+    Tipo_Embalagem_Venda,
+    Menor_Embalagem_Disp,
+    Forma_Separacao,
+    Qtde_Compra,
+    Preco_Unitario_Compra,
+    Valor_Liquido_Compra,
+    Valor_Compra_Total,
+    Valor_ICMS_ST_Compra,
+    Valor_IPI_Compra,
+    Valor_IPI_Compra_Importacao,
+    Valor_ICMS_Compra,
+    Valor_ICMS_Importacao,
+    Valor_ICMS_Compra_Recuperado,
+    Valor_Cofins_Compra,
+    Valor_Cofins_Compra_Retido,
+    Valor_Cofins_Compra_Isento,
+    Valor_PIS_Compra,
+    Valor_PIS_Compra_Isento,
+    Valor_PIS_Compra_Retido,    
+    ID_Fornecedor,
+    Custo_Total_Compra,
+    Cuto_Medio_Compra_Total,    
+    Valor_Frete_Compra,
+    Tipo_Frete_Compra,
+    Valor_Frete_Compra_Internacional,
+    Peso_Liquido_Compra,
+    Unidade_Logistica,
+    Prazo_Pagamento_Compras,
+    Valor_Despesas_Acessorias_Compras,
+    Valor_Despesas_Acessorias_Compras_Importacao,    
+    Valor_Despesa_Logistica_Compra,
+    Valor_AFRMM_Compra,
+    Valor_Seguro_Compra,
+    Valor_Siscomex_Compra,
+    Valor_THC_Compra        
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Transformacao/Fato_Vendas_Consolidado.qvd]
+(qvd);
+
+
+
+
+[PEDIDOS_COMPRA_ABERTO]:
+LOAD
+    %Chave_Pedido_Compra,
+    [Chave Pedido Transito],
+    ID_Fornecedor_OC,
+    Numero_OC,
+    Comprador_OC,
+    Chave_Num_OC,
+    Data_OC,
+    Data_Previsao_OC,
+    "Previsao ou Confirmado Entrega",
+    Situacao_Pedido_Fornecedor,
+    Preco_Venda,
+    Qtde_Pedida,
+    Preco_Unitario_Produto,
+    Qtde_Recebida,
+    Qtde_Liberada,
+    Numero_Parcelas,
+    Qtde_Aberto,
+    Valor_Aberto_OC,
+    Prazo_Medio_Pagamento,
+    Situacao_Entrega_OC,
+    AnoMes_OC_Previsao_Entrega,
+    AnoMes_OC,
+    Situacao_OC,
+    "Pedido Mes Atual/Anterior",
+    "Pedido Dia Atual",
+    Tipo_Pedido,
+    Fornecedor_Interno,
+    Qtde_Em_Transito,
+    Preco_Unitario_Em_Transito,
+    Valor_Transito_OC,
+    Qtde_NFS_Em_Transito,
+    "Pedido em Transito",
+    "Pedido Importação", 
+    "Moeda OC", 
+    "Taxa Cambio"    
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Transformacao/Pedido_Compra_Aberto_OC.qvd]
+(qvd);
+
+
+[PEDIDOS_COMPRA_ABERTO_TRANSITO]:
+LOAD
+    "Chave Pedido Transito",
+    "Pedido No. Lote",
+    "Pedido Cod. Filial Original",
+    "Pedido Cod. Filial",
+    "Pedido Preço Unit. na NF",
+    "Pedido Cod. Produto",
+    "Pedido Qtde na NF",
+    "Pedido Cod. Fornecedor",
+    "Pedido Data Emissão",
+    "Pedido Data Liberacao",
+    "Pedido Data Movimentacao",
+    "Pedido Com Divergencia",
+    "Pedido Lote Liberado",
+    "Pedido NF_Serie",
+    "Origem (M)anual (X) Import.",
+    "Pedido Tipo Lote",
+    "Tipo NF",
+    "Pedido Status Lote"
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Transformacao/Pedido_Compra_Aberto_Transito.qvd]
+(qvd);
+
+
+
+[LINK_TABLE]:
+LOAD Distinct
+    Chave_Produto_Carac,
+    Chave_Produto_Dim,
+    Chave_Produto_Carac_Emp,
+    ID_Unidade_Link,
+    Chave_Fato_Consolidado,
+    %Chave_Pedido_Compra
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Transformacao/Link_Table_Compras.qvd]
+(qvd);
+
+
+
+[DIM_EMBALAGENS]:
+LOAD
+    Chave_Produto_Carac,
+    ID_Unidade_Bloqueio,
+    //ID_Produto,
+    Descricao_Embalagem,
+    UM_Embalagem,
+    Quantidade_Embalagem,
+    Embalagem_Bloqueada
+FROM [lib://Projetos (qliksense_administrador)/Comercial Compras/Transformacao/Dim_Embalagens.qvd]
+(qvd);
+
+
+
+Autonumber Chave_Fato_Consolidado, Chave_Produto_Carac, %Chave_Pedido_Compra, Chave_Produto_Dim, [Chave Pedido Transito];
+//Exit Script;

@@ -1,0 +1,50 @@
+///$tab Calendário
+/*Gera Calendário Master com dias, meses, anos, dias de semana, trimestres e outras informações com base na data*/
+
+/*QuarterMap - Cria os Trimestres. Gera 12 linhas e as divide por 3. O número resultante é o número do trimestre*/
+QuartersMap:  
+MAPPING LOAD   
+rowno() as Month,  
+Ceil (rowno()/3) & 'º Trimestre' as Quarter  
+AUTOGENERATE (12);  
+  
+/*Temp - Busca a menor e a maior data na tabela residente*/
+Temp:  
+Load  
+   min(Data_Emissao_NFS) as minDate,  
+   max(Data_Emissao_NFS) as maxDate  
+Resident FATO_VENDAS;  // Informar aqui a sua tabela principal de data
+  
+/*Cria variáveis - data mínima e data máxima*/
+Let varMinDate = Num(Peek('minDate', 0, 'Temp'));  
+Let varMaxDate = Num(Peek('maxDate', 0, 'Temp'));  
+DROP Table Temp;  
+  
+/*TempCalendar - Gera todos as datas entre a menor e a maior data definidas acima*/
+TempCalendar:  
+LOAD  
+	$(varMinDate) + Iterno()-1 As Num,  
+	Date($(varMinDate) + IterNo() - 1) as TempDate  
+	AutoGenerate 1 While $(varMinDate) + IterNo() -1 <= $(varMaxDate);  
+  
+  
+/*Gera o calendário com base na TempDate gerada acima*/
+CALENDÁRIO:  
+Load  
+	 TempDate AS Data_Emissao_NFS,               //Coloque o nome da sua coluna de data  
+//	 week(TempDate) As Semana,  
+	 Year(TempDate) As Ano,  
+	 Month(TempDate) As Mes,  
+//     Num(Month(TempDate)) as MesNum,
+//	 Day(TempDate) As Dia,  
+//	 YeartoDate(TempDate)*-1 as CurYTDFlag,  
+//	 YeartoDate(TempDate,-1)*-1 as LastYTDFlag,  
+	 date(monthstart(TempDate), 'MMM-YYYY') as MesAno, 
+     Year(TempDate) & Date(TempDate,'MM') as AnoMes,
+	 ApplyMap('QuartersMap', month(TempDate), Null()) as Trimestre
+//	 Week(weekstart(TempDate)) & '-' & WeekYear(TempDate) as SemanaAno,  
+//	 WeekDay(TempDate) as DiaSemana,
+//     1+ceil((TempDate-floor(weekend(monthstart(TempDate),0,-1)))/7) as SemanaMes
+Resident TempCalendar  
+Order By TempDate ASC;  
+Drop Table TempCalendar
